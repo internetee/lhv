@@ -1,3 +1,5 @@
+require 'keystores'
+
 require "lhv/version"
 
 module Lhv
