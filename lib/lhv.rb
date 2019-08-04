@@ -1,5 +1,6 @@
 require 'keystores'
 require 'nokogiri'
+require 'money'
 
 require "lhv/version"
 
