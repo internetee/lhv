@@ -1,7 +1,20 @@
 module Lhv
   class ConnectApi
-    def initialize(uri:, cert: nil, key: nil)
-      @http = init_http(uri: uri, cert: cert, key: key)
+    attr_reader :config
+    attr_reader :cert
+    attr_reader :key
+    attr_accessor :dev_mode
+
+    def initialize(config: Config.new(filename: 'config/connect_api.yml'))
+      @config = config
+    end
+
+    def api_base_uri
+      if dev_mode
+        config.api_base_url_development
+      else
+        config.api_base_url_production
+      end
     end
 
     def credit_debit_notification_messages
@@ -27,11 +40,9 @@ module Lhv
 
     private
 
-    attr_reader :http
-
-    def init_http(uri:, cert:, key:)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.kind_of?(URI::HTTPS)
+    def http
+      http = Net::HTTP.new(api_base_uri.host, api_base_uri.port)
+      http.use_ssl = api_base_uri.kind_of?(URI::HTTPS)
       http.cert = cert
       http.key = key
       http

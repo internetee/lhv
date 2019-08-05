@@ -1,0 +1,2 @@
+api_base_url_development: "https://testconnect.lhv.eu/connect-prelive"
+api_base_url_production: "https://connect.lhv.eu"
