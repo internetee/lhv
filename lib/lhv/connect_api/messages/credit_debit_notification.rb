@@ -8,6 +8,10 @@ module Lhv
           @xml_doc = xml_doc
         end
 
+        def bank_account_iban
+          xml_doc.at_css('BkToCstmrDbtCdtNtfctn > Ntfctn > Acct > Id > IBAN').text
+        end
+
         def credit_transactions
           transactions = []
 

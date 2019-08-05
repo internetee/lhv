@@ -1,6 +1,29 @@
 require 'test_helper'
 
 class CreditDebitNotificationTest < Minitest::Test
+  def test_returns_bank_account_iban
+    iban = 'GB33BUKB20201555555555'
+
+    xml = <<~XML
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.02">
+        <BkToCstmrDbtCdtNtfctn>
+          <Ntfctn>
+            <Acct>
+              <Id>
+                <IBAN>#{iban}</IBAN>
+              </Id>
+            </Acct>
+          </Ntfctn>
+        </BkToCstmrDbtCdtNtfctn>
+      </Document>
+    XML
+
+    message = Lhv::ConnectApi::Messages::CreditDebitNotification.new(Nokogiri::XML(xml))
+
+    assert_equal iban, message.bank_account_iban
+  end
+
   def test_credit_transactions_returns_credit_transactions
     payment_reference_number = 'payment reference number'
     payment_description = 'payment description'
