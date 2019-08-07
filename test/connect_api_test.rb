@@ -56,22 +56,20 @@ class ConnectApiTest < Minitest::Test
   end
 
   def test_production_mode
-    api_base_uri = URI('https://production.test')
-    config = OpenStruct.new(api_base_url_production: api_base_uri)
+    config = OpenStruct.new(api_base_url_production: 'https://production.test')
 
     api = Lhv::ConnectApi.new(config: config)
     api.dev_mode = false
 
-    assert_equal api_base_uri, api.api_base_uri
+    assert_equal URI('https://production.test'), api.api_base_uri
   end
 
   def test_development_mode
-    api_base_uri = URI('https://development.test')
-    config = OpenStruct.new(api_base_url_development: api_base_uri)
+    config = OpenStruct.new(api_base_url_development: 'https://development.test')
 
     api = Lhv::ConnectApi.new(config: config)
     api.dev_mode = true
 
-    assert_equal api_base_uri, api.api_base_uri
+    assert_equal URI('https://development.test'), api.api_base_uri
   end
 end

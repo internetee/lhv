@@ -10,11 +10,13 @@ module Lhv
     end
 
     def api_base_uri
-      if dev_mode
-        config.api_base_url_development
-      else
-        config.api_base_url_production
-      end
+      url = if dev_mode
+              config.api_base_url_development
+            else
+              config.api_base_url_production
+            end
+
+      URI(url)
     end
 
     def credit_debit_notification_messages
