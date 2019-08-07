@@ -36,14 +36,14 @@ class ConnectApiTest < Minitest::Test
   end
 
   def test_credit_debit_notification_messages_endpoint_skips_other_messages
-    api_base_uri = URI('http://lhv.test')
-    config = OpenStruct.new(api_base_url_production: api_base_uri)
-    stub_request(:get, api_base_uri + '/messages/next')
+    config = OpenStruct.new(api_base_url_production: 'http://lhv.test')
+    stub_request(:get, 'http://lhv.test/messages/next')
       .and_return({ status: 200,
                     headers: {
                       'message-response-type' => 'NOT_CREDIT_DEBIT_NOTIFICATION',
                     } },
                   { status: 404 })
+    stub_request(:delete, /messages/)
 
     api = Lhv::ConnectApi.new(config: config)
     messages = api.credit_debit_notification_messages
