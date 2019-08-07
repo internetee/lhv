@@ -5,7 +5,7 @@ module Lhv
     attr_reader :key
     attr_accessor :dev_mode
 
-    def initialize(config: Config.new(filename: 'config/connect_api.yml'))
+    def initialize(config: Config.new(filename: File.expand_path('../../config/connect_api.yml', __dir__)))
       @config = config
     end
 
