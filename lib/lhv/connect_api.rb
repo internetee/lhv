@@ -1,8 +1,9 @@
 module Lhv
   class ConnectApi
     attr_reader :config
-    attr_reader :cert
-    attr_reader :key
+    attr_accessor :ca_file
+    attr_accessor :cert
+    attr_accessor :key
     attr_accessor :dev_mode
 
     def initialize(config: Config.new(filename: 'config/connect_api.yml'))
@@ -46,6 +47,7 @@ module Lhv
     def http
       http = Net::HTTP.new(api_base_uri.host, api_base_uri.port)
       http.use_ssl = api_base_uri.kind_of?(URI::HTTPS)
+      http.ca_file = ca_file
       http.cert = cert
       http.key = key
       http
