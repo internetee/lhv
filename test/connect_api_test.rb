@@ -25,7 +25,6 @@ class ConnectApiTest < Minitest::Test
       .and_return({ status: 200,
                     headers: {
                       'message-response-id' => response_id,
-                      'message-response-type' => 'CREDIT_DEBIT_NOTIFICATION',
                     } },
                   { status: 404 })
     http_request = stub_request(:delete, "http://lhv.test/connect-api/messages/#{response_id}")

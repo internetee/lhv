@@ -29,11 +29,12 @@ module Lhv
           message_pending = response.kind_of?(Net::HTTPOK)
           break unless message_pending
 
+          acknowledge_response(response)
+
           message_type = response['message-response-type']
           next unless message_type == 'CREDIT_DEBIT_NOTIFICATION'
 
           messages << Messages::CreditDebitNotification.new(Nokogiri::XML(response.body))
-          acknowledge_response(response)
         end
       end
 
