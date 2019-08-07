@@ -3,7 +3,7 @@ module Lhv
     attr_reader :data
 
     def initialize(filename:)
-      @data = YAML.load_file(filename)
+      @data = YAML.load_file(Lhv.root.join(filename))
       define_reader_methods(data.keys)
     end
 

@@ -11,5 +11,8 @@ require 'lhv/connect_api/messages/credit_debit_notification'
 
 module Lhv
   class Error < StandardError; end
-  # Your code goes here...
+
+  def self.root
+    Pathname(File.expand_path('../', __dir__))
+  end
 end
