@@ -24,7 +24,7 @@ module Lhv
 
       http.start do |http|
         loop do
-          response = http.get('/messages/next')
+          response = http.get(api_base_uri.path + '/messages/next')
 
           message_pending = response.kind_of?(Net::HTTPOK)
           break unless message_pending
@@ -53,7 +53,7 @@ module Lhv
     # Without this `/messages/next` endpoint continuously returns the same response
     def acknowledge_response(response)
       id = response['message-response-id']
-      http.delete("/messages/#{id}")
+      http.delete(api_base_uri.path + "/messages/#{id}")
     end
   end
 end
