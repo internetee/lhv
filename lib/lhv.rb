@@ -1,3 +1,5 @@
+require 'net/http'
+
 require 'keystores'
 require 'nokogiri'
 require 'money'
