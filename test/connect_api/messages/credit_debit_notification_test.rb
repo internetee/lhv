@@ -36,6 +36,9 @@ class CreditDebitNotificationTest < Minitest::Test
             <Ntry>
               <Amt Ccy="EUR">10.00</Amt>
               <CdtDbtInd>CRDT</CdtDbtInd>
+              <BookgDt>
+                <Dt>2010-07-05</Dt>
+              </BookgDt>
               <NtryDtls>
                 <TxDtls>
                   <RmtInf>
@@ -59,6 +62,7 @@ class CreditDebitNotificationTest < Minitest::Test
     assert_equal 1, message.credit_transactions.size
     transaction = message.credit_transactions.first
     assert_equal Money.from_amount(10, :eur), transaction.amount
+    assert_equal Date.parse('2010-07-05'), transaction.date
     assert_equal payment_reference_number, transaction.payment_reference_number
     assert_equal payment_description, transaction.payment_description
   end

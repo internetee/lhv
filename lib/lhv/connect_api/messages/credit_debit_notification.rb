@@ -2,7 +2,7 @@ module Lhv
   class ConnectApi
     module Messages
       class CreditDebitNotification
-        Transaction = Struct.new(:amount, :payment_reference_number, :payment_description)
+        Transaction = Struct.new(:amount, :date, :payment_reference_number, :payment_description)
 
         def initialize(xml_doc)
           @xml_doc = xml_doc
@@ -21,13 +21,17 @@ module Lhv
             amount_value = entry_xml_fragment.at_css('Amt').text.to_f
             currency = entry_xml_fragment.at_css('Amt')['Ccy']
             amount = Money.from_amount(amount_value, currency)
+            date = Date.parse(entry_xml_fragment.at_css('BookgDt > Dt').text)
 
             payment_reference_number = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf >' \
               ' Strd > CdtrRefInf > Ref').text
             payment_description = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf' \
               ' > Ustrd').text
 
-            transactions << Transaction.new(amount, payment_reference_number, payment_description)
+            transactions << Transaction.new(amount,
+                                            date,
+                                            payment_reference_number,
+                                            payment_description)
           end
 
           transactions
