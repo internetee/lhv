@@ -2,7 +2,6 @@ require 'net/http'
 
 require 'keystores'
 require 'nokogiri'
-require 'money'
 
 require "lhv/version"
 require 'lhv/config'

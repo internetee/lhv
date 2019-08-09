@@ -61,7 +61,8 @@ class CreditDebitNotificationTest < Minitest::Test
 
     assert_equal 1, message.credit_transactions.size
     transaction = message.credit_transactions.first
-    assert_equal Money.from_amount(10, :eur), transaction.amount
+    assert_equal 10, transaction.amount
+    assert_equal 'EUR', transaction.currency
     assert_equal Date.parse('2010-07-05'), transaction.date
     assert_equal payment_reference_number, transaction.payment_reference_number
     assert_equal payment_description, transaction.payment_description
