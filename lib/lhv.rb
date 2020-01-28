@@ -1,6 +1,7 @@
 require 'net/http'
 
 require 'keystores'
+require 'logger'
 require 'nokogiri'
 
 require "lhv/version"
@@ -13,5 +14,13 @@ module Lhv
 
   def self.root
     Pathname(File.expand_path('../', __dir__))
+  end
+
+  def self.logger
+    @@logger ||= Logger.new(STDOUT)
+  end
+
+  def self.logger=(logger)
+    @@logger = logger
   end
 end
