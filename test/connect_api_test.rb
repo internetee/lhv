@@ -1,4 +1,5 @@
 require 'test_helper'
+require "net/http"
 
 class ConnectApiTest < Minitest::Test
   def test_credit_debit_notification_messages_endpoint_returns_credit_debit_notification_messages
@@ -33,6 +34,19 @@ class ConnectApiTest < Minitest::Test
     api.credit_debit_notification_messages
 
     assert_requested http_request
+  end
+
+  def test_credit_debit_notification_messages_endpoint_retries_at_timeout
+    config = OpenStruct.new(api_base_url_production: 'http://lhv.test/connect-api')
+    get_request = stub_request(:get, 'http://lhv.test/connect-api/messages/next')
+                    .to_timeout
+
+    api = Lhv::ConnectApi.new(config: config)
+
+    assert_raises(Net::OpenTimeout) do
+      api.credit_debit_notification_messages
+    end
+    assert_requested get_request, times: 3
   end
 
   def test_credit_debit_notification_messages_endpoint_skips_other_messages

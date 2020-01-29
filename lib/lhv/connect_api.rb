@@ -25,7 +25,7 @@ module Lhv
 
       http.start do |http|
         loop do
-          response = http.get(api_base_uri.path + '/messages/next')
+          response = get_request(http: http, retries_left: 3)
 
           message_pending = response.kind_of?(Net::HTTPOK)
           break unless message_pending
@@ -43,6 +43,19 @@ module Lhv
     end
 
     private
+
+    def get_request(http:, retries_left: 3)
+      return if retries_left <= 0
+
+      http.get(api_base_uri.path + '/messages/next')
+    rescue Net::OpenTimeout => e
+      Lhv.logger.warn "TRY #{4 - retries_left}/3. Timed out while trying to connect #{e}"
+      if retries_left <= 1
+        Lhv.logger.error "Net::OpenTimeout while trying to connect #{e}. Retries limit exceeded"
+        raise e
+      end
+      get_request(http: http, retries_left: retries_left - 1)
+    end
 
     def http
       http = Net::HTTP.new(api_base_uri.host, api_base_uri.port)
