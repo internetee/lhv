@@ -33,8 +33,11 @@ module Lhv
                                             payment_reference_number,
                                             payment_description)
           end
-
           transactions
+        rescue NoMethodError
+          Lhv.logger.error 'Invalid XML Data'
+          Lhv.logger.error xml_doc.css('BkToCstmrDbtCdtNtfctn > Ntfctn > Ntry')
+          raise
         end
 
         private

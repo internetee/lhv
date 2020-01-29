@@ -8,6 +8,7 @@ require "lhv/version"
 require 'lhv/config'
 require 'lhv/connect_api'
 require 'lhv/connect_api/messages/credit_debit_notification'
+require 'logger'
 
 module Lhv
   class Error < StandardError; end
