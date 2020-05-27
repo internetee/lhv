@@ -25,7 +25,7 @@ class CreditDebitNotificationTest < Minitest::Test
   end
 
   def test_credit_transactions_raises_error_and_writes_log_if_incorrect_data
-    payment_description = 'payment description'
+    payment_reference_number = 'payment reference number'
 
     xml = <<~XML
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -43,9 +43,9 @@ class CreditDebitNotificationTest < Minitest::Test
                   <RmtInf>
                     <Strd>
                       <CdtrRefInf>
+                      <Ref>#{payment_reference_number}</Ref>
                       </CdtrRefInf>
                     </Strd>
-                    <Ustrd>#{payment_description}</Ustrd>
                   </RmtInf>
                 </TxDtls>
               </NtryDtls>
