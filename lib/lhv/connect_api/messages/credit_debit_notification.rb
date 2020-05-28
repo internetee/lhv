@@ -23,7 +23,7 @@ module Lhv
             date = Date.parse(entry_xml_fragment.at_css('BookgDt > Dt').text)
 
             payment_reference_number = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf >' \
-              ' Strd > CdtrRefInf > Ref').text
+              ' Strd > CdtrRefInf > Ref')&.text
             payment_description = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf' \
               ' > Ustrd').text
 
