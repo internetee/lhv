@@ -6,6 +6,8 @@ module Lhv
 
         def initialize(xml_doc)
           @xml_doc = xml_doc
+          Lhv.logger.info 'Loaded xml document'
+          Lhv.logger.info xml_doc
         end
 
         def bank_account_iban
@@ -25,13 +27,18 @@ module Lhv
             payment_reference_number = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf >' \
               ' Strd > CdtrRefInf > Ref')&.text
             payment_description = entry_xml_fragment.at_css('NtryDtls > TxDtls > RmtInf' \
-              ' > Ustrd').text
+              ' > Ustrd')&.text
 
-            transactions << Transaction.new(amount,
-                                            currency,
-                                            date,
-                                            payment_reference_number,
-                                            payment_description)
+            transaction = Transaction.new(amount,
+                                          currency,
+                                          date,
+                                          payment_reference_number,
+                                          payment_description)
+
+            Lhv.logger.info 'Parsed transaction'
+            Lhv.logger.info transaction
+
+            transactions << transaction
           end
           transactions
         rescue NoMethodError

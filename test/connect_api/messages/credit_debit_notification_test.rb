@@ -24,43 +24,6 @@ class CreditDebitNotificationTest < Minitest::Test
     assert_equal iban, message.bank_account_iban
   end
 
-  def test_credit_transactions_raises_error_and_writes_log_if_incorrect_data
-    payment_reference_number = 'payment reference number'
-
-    xml = <<~XML
-      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.02">
-        <BkToCstmrDbtCdtNtfctn>
-          <Ntfctn>
-            <Ntry>
-              <Amt Ccy="EUR">10.00</Amt>
-              <CdtDbtInd>CRDT</CdtDbtInd>
-              <BookgDt>
-                <Dt>2010-07-05</Dt>
-              </BookgDt>
-              <NtryDtls>
-                <TxDtls>
-                  <RmtInf>
-                    <Strd>
-                      <CdtrRefInf>
-                      <Ref>#{payment_reference_number}</Ref>
-                      </CdtrRefInf>
-                    </Strd>
-                  </RmtInf>
-                </TxDtls>
-              </NtryDtls>
-            </Ntry>
-          </Ntfctn>
-        </BkToCstmrDbtCdtNtfctn>
-      </Document>
-    XML
-    message = Lhv::ConnectApi::Messages::CreditDebitNotification.new(Nokogiri::XML(xml))
-
-    assert_raises(NoMethodError) do
-      message.credit_transactions
-    end
-  end
-
   def test_credit_transactions_returns_credit_transactions
     payment_reference_number = 'payment reference number'
     payment_description = 'payment description'
@@ -103,6 +66,36 @@ class CreditDebitNotificationTest < Minitest::Test
     assert_equal Date.parse('2010-07-05'), transaction.date
     assert_equal payment_reference_number, transaction.payment_reference_number
     assert_equal payment_description, transaction.payment_description
+  end
+
+  def test_credit_transactions_refnumber_desctiption_optional
+    payment_reference_number = 'payment reference number'
+    payment_description = 'payment description'
+
+    xml = <<~XML
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.02">
+        <BkToCstmrDbtCdtNtfctn>
+          <Ntfctn>
+            <Ntry>
+              <Amt Ccy="EUR">10.00</Amt>
+              <CdtDbtInd>CRDT</CdtDbtInd>
+              <BookgDt>
+                <Dt>2010-07-05</Dt>
+              </BookgDt>
+            </Ntry>
+          </Ntfctn>
+        </BkToCstmrDbtCdtNtfctn>
+      </Document>
+    XML
+
+    message = Lhv::ConnectApi::Messages::CreditDebitNotification.new(Nokogiri::XML(xml))
+
+    assert_equal 1, message.credit_transactions.size
+    transaction = message.credit_transactions.first
+    assert_equal 10, transaction.amount
+    assert_equal 'EUR', transaction.currency
+    assert_equal Date.parse('2010-07-05'), transaction.date
   end
 
   def test_credit_transactions_skips_debit_transactions

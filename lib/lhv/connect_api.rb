@@ -38,6 +38,8 @@ module Lhv
           messages << Messages::CreditDebitNotification.new(Nokogiri::XML(response.body))
         end
       end
+      Lhv.logger.info 'Got the following messages'
+      Lhv.logger.info messages
 
       messages
     end
