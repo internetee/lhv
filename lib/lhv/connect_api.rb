@@ -62,6 +62,7 @@ module Lhv
     def http
       http = Net::HTTP.new(api_base_uri.host, api_base_uri.port)
       http.use_ssl = api_base_uri.kind_of?(URI::HTTPS)
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE if dev_mode
       http.ca_file = ca_file
       http.cert = cert
       http.key = key
