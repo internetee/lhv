@@ -27,6 +27,10 @@ module Lhv
         loop do
           response = get_request(http: http, retries_left: 3)
 
+          Lhv.logger.info '=========== RESPONSE FROM LHV ==================='
+          Lhv.logger.info response.body
+          Lhv.logger.info '=========== ================= ==================='
+
           message_pending = response.kind_of?(Net::HTTPOK)
           break unless message_pending
 
