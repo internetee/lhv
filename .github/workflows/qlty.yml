@@ -14,13 +14,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup qlty.sh CLI
+    - name: Setup qlty.sh
       run: |
         curl -sSL https://qlty.sh/install.sh | bash
         
-    - name: Run Qlty check
-      run: qlty check
-      
-    - name: Run Qlty check with detailed output
-      if: failure()
-      run: qlty check --verbose
+    - name: Run qlty.sh analysis
+      env:
+        QLTY_TOKEN: ${{ secrets.QLTY_TOKEN }}
+      run: |
+        export PATH="$HOME/.qlty/bin:$PATH"
+        qlty check --verbose \
+          --repo="${{ github.repository }}" \
+          --pr="${{ github.event.number }}" \
+          --commit="${{ github.sha }}" \
+          --base="${{ github.event.pull_request.base.sha }}"
