@@ -14,18 +14,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2'
-        bundler-cache: true
-        
-    - name: Install Qlty
-      run: gem install qlty
+    - name: Download Qlty CLI
+      run: |
+        curl -L https://github.com/qlty-ai/qlty/releases/latest/download/qlty-x86_64-unknown-linux-gnu.tar.gz | tar xz
+        chmod +x qlty
         
     - name: Run Qlty check
-      run: qlty check
+      run: ./qlty check
       
     - name: Run Qlty check with detailed output
       if: failure()
-      run: qlty check --verbose
+      run: ./qlty check --verbose
