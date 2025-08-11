@@ -21,7 +21,7 @@ jobs:
     - name: Initialize qlty.sh
       run: |
         export PATH="$HOME/.qlty/bin:$PATH"
-        qlty init
+        qlty init --ci
         
     - name: Run qlty.sh analysis
       run: |
