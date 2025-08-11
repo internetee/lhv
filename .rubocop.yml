@@ -1,0 +1,9 @@
+# Import Internetee style guide configuration
+# This ensures all repositories use the same code style rules
+inherit_from:
+  - https://raw.githubusercontent.com/internetee/style-guide/master/.rubocop-ruby.yml
+
+# Local overrides - exclude bin directory from analysis
+AllCops:
+  Exclude:
+    - 'bin/**/*'
