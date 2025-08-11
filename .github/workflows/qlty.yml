@@ -14,14 +14,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Download Qlty CLI
+    - name: Setup qlty.sh CLI
       run: |
-        curl -L https://github.com/qlty-ai/qlty/releases/latest/download/qlty-x86_64-unknown-linux-gnu.tar.gz | tar xz
-        chmod +x qlty
+        curl -sSL https://qlty.sh/install.sh | bash
         
     - name: Run Qlty check
-      run: ./qlty check
+      run: qlty check
       
     - name: Run Qlty check with detailed output
       if: failure()
-      run: ./qlty check --verbose
+      run: qlty check --verbose
