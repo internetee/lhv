@@ -1,33 +1,77 @@
-# Import Internetee style guide configuration
-# This ensures all repositories use the same code style rules
-inherit_from:
-  - https://raw.githubusercontent.com/internetee/style-guide/master/.rubocop-ruby.yml
+# Local RuboCop configuration based on Internetee style guide
+# This avoids deprecated rule issues from the remote style guide
 
-# Local overrides - exclude bin directory from analysis
 AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
   Exclude:
     - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'db/schema.rb'
+    - 'config/initializers/version.rb'
 
-# Fix deprecated rule names for newer RuboCop versions
-Style/MixedRegexpCaptureTypes:
+# Layout
+Layout/LineLength:
+  Max: 120
+
+Layout/IndentationWidth:
+  Width: 2
+
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
+# Lint
+Lint/UnusedMethodArgument:
   Enabled: false
 
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
 
-Metrics/LineLength:
-  Enabled: false
+# Metrics
+Metrics/AbcSize:
+  Max: 20
 
-Layout/LineLength:
-  Enabled: true
-  Max: 120
+Metrics/MethodLength:
+  Max: 20
 
-Naming/UncommunicativeMethodParamName:
-  Enabled: false
+Metrics/ClassLength:
+  Max: 150
 
+Metrics/ModuleLength:
+  Max: 150
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+
+# Naming
 Naming/MethodParameterName:
   Enabled: true
 
-# Fix documentation department warning
+# Style
 Style/Documentation:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/ReturnNil:
+  Enabled: true
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
