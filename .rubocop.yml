@@ -1,5 +1,5 @@
 # Local RuboCop configuration based on Internetee style guide
-# This avoids deprecated rule issues from the remote style guide
+# This matches the exact rules from the Internetee style guide
 
 AllCops:
   NewCops: enable
@@ -11,6 +11,41 @@ AllCops:
     - 'db/schema.rb'
     - 'config/initializers/version.rb'
 
+# Style
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ReturnNil:
+  Enabled: true
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/Lambda:
+  Enabled: false
+
+Style/RedundantRegexpEscape:
+  Enabled: false
+
+Style/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Style/KeywordParametersOrder:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Documentation
+Style/Documentation:
+  Enabled: false
+
 # Layout
 Layout/LineLength:
   Max: 120
@@ -18,22 +53,15 @@ Layout/LineLength:
 Layout/IndentationWidth:
   Width: 2
 
-Layout/EmptyLinesAroundMethodBody:
-  Enabled: true
-
-Layout/EmptyLinesAroundClassBody:
-  Enabled: true
-
-# Lint
-Lint/UnusedMethodArgument:
+# Metrics
+Metrics/PerceivedComplexity:
   Enabled: false
 
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
+Metrics/CyclomaticComplexity:
+  Enabled: false
 
-# Metrics
 Metrics/AbcSize:
-  Max: 20
+  Enabled: false
 
 Metrics/MethodLength:
   Max: 20
@@ -51,27 +79,15 @@ Metrics/BlockLength:
     - 'test/**/*'
 
 # Naming
-Naming/MethodParameterName:
-  Enabled: true
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - x
+    - y
+    - ph
+    - pw
+    - ip
+    - id
 
-# Style
-Style/Documentation:
+# Lint
+Lint/UnusedMethodArgument:
   Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/StringLiterals:
-  EnforcedStyle: single_quotes
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
-
-Style/ReturnNil:
-  Enabled: true
-
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
