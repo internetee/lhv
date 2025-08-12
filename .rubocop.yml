@@ -33,9 +33,6 @@ Style/Lambda:
 Style/RedundantRegexpEscape:
   Enabled: false
 
-Style/MixedRegexpCaptureTypes:
-  Enabled: false
-
 Style/KeywordParametersOrder:
   Enabled: false
 
@@ -78,8 +75,8 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'test/**/*'
 
-# Naming
-Naming/UncommunicativeMethodParamName:
+# Naming - using new rule name
+Naming/MethodParameterName:
   AllowedNames:
     - x
     - y
@@ -90,4 +87,8 @@ Naming/UncommunicativeMethodParamName:
 
 # Lint
 Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Fix deprecated rule - moved from Style to Lint
+Lint/MixedRegexpCaptureTypes:
   Enabled: false
