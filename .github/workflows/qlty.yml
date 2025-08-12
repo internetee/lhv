@@ -21,4 +21,4 @@ jobs:
     - name: Run qlty.sh analysis
       run: |
         export PATH="$HOME/.qlty/bin:$PATH"
-        qlty check --ci --verbose
+        qlty check --verbose
