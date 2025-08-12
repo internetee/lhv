@@ -18,13 +18,6 @@ jobs:
       run: |
         curl -sSL https://qlty.sh/install.sh | bash
         
-    - name: Initialize qlty.sh
-      env:
-        TERM: dumb
-      run: |
-        export PATH="$HOME/.qlty/bin:$PATH"
-        qlty init
-        
     - name: Run qlty.sh analysis
       run: |
         export PATH="$HOME/.qlty/bin:$PATH"
