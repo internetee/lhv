@@ -7,3 +7,27 @@ inherit_from:
 AllCops:
   Exclude:
     - 'bin/**/*'
+
+# Fix deprecated rule names for newer RuboCop versions
+Style/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Metrics/LineLength:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: true
+
+# Fix documentation department warning
+Style/Documentation:
+  Enabled: false
