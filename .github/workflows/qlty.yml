@@ -1,4 +1,4 @@
-name: Qlty Code Quality
+name: RuboCop Code Quality
 
 on:
   push:
@@ -7,26 +7,21 @@ on:
     branches: [ main, master, develop ]
 
 jobs:
-  qlty:
+  rubocop:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup qlty.sh
-      run: |
-        curl -sSL https://qlty.sh/install.sh | bash
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
         
-    - name: Initialize qlty.sh
-      env:
-        CI: true
-        TERM: dumb
-      run: |
-        export PATH="$HOME/.qlty/bin:$PATH"
-        qlty init
+    - name: Install RuboCop
+      run: gem install rubocop
         
-    - name: Run qlty.sh analysis
-      run: |
-        export PATH="$HOME/.qlty/bin:$PATH"
-        qlty check --verbose
+    - name: Run RuboCop check
+      run: rubocop --config .rubocop.yml
